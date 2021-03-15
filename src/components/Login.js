@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { HatClient } from '@dataswift/hat-js';
 import appConfig from '../appConfig';
+import { Link } from 'react-router-dom';
 
 export default class Login extends Component {
     state = { username: '', error: false }
@@ -41,7 +42,8 @@ export default class Login extends Component {
                             </button>
                         </div>
                     </form>
-                    {this.state.error && <div className="ui error message">Username not valid</div>}
+                    {!this.state.error && <div className="ui success message">Don't have an account? create an account <Link to="/signup">here</Link>.</div>}
+                    {this.state.error && <div className="ui error message">Username not valid. Would like to create an <Link to="/signup">account</Link>?</div>}
                 </div>
             </div>
         )
