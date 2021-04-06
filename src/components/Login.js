@@ -16,7 +16,7 @@ export default class Login extends Component {
 
         if(isRegistered) {
             const url = `https://${domain}`;
-            const redirectUrl = `http://${window.location.host}`;
+            const redirectUrl = `http://${window.location.host}/auth`;
             const fallback = `http://${window.location.host}`;
             const applicationId = appConfig.applicationId;
             window.location.href = auth.generateHatLoginUrl(url, applicationId, redirectUrl, fallback);
