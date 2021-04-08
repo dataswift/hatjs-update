@@ -1,13 +1,14 @@
 import React from "react";
 
-export default function Comment({ comment, hat }) {
+export default function Comment({ comment, hat, callback }) {
   const { data } = comment;
   const { date, value } = data;
 
   const updateComment = async (event) => {
     event.preventDefault();
     comment.data.value += " updated!";
-    const response = await hat.hatData().update([comment]);
+    await hat.hatData().update([comment]);
+    callback(comment)
   };
 
   return (

@@ -6,6 +6,7 @@ import Comment from "./Comment";
 export default function Home() {
   const [input, setInput] = useState("");
   const [newComment, setNewComment] = useState("");
+  const [updatedComment, setUpdatedComment] = useState()
   const [comments, setComments] = useState([]);
 
   const token = sessionStorage.getItem("token");
@@ -57,7 +58,7 @@ export default function Home() {
   useEffect(() => {
     fetchComments();
     console.log(comments);
-  }, []);
+  }, [updatedComment]);
 
   return (
     <div className="ui middle aligned grid">
@@ -81,7 +82,7 @@ export default function Home() {
           {comments
             .sort((a, b) => new Date(a.data.date) - new Date(b.data.date))
             .map((comment) => (
-              <Comment comment={comment} hat={hat} />
+              <Comment comment={comment} hat={hat} callback={setUpdatedComment}/>
             ))}
         </div>
       </div>
