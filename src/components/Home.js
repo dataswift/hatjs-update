@@ -1,6 +1,7 @@
 import { HatClient } from "@dataswift/hat-js";
 import React, { useEffect, useState } from "react";
 import appConfig from "../appConfig";
+import Comment from "./Comment";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -49,7 +50,7 @@ export default function Home() {
       .getAllDefault(appConfig.namespace, commentEndpoint);
 
     if (response.parsedBody) {
-      setComments(response.parsedBody.map((comment) => comment.data));
+      setComments(response.parsedBody);
     }
   };
 
@@ -77,26 +78,11 @@ export default function Home() {
           </button>
         </form>
         <div className="ui comments">
-          {comments.map(({ date, value }) => (
-            <div className="comment">
-              <div className="content">
-                <a className="text">{value}</a>
-                <div className="metadata">
-                  <span className="date">
-                    {new Date(date).toLocaleTimeString()}
-                  </span>
-                </div>
-                <div className="actions">
-                  <a href="" className="edit">
-                    Edit
-                  </a>
-                  <a href="" className="delete">
-                    Delete
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
+          {comments
+            .sort((a, b) => new Date(a.data.date) - new Date(b.data.date))
+            .map((comment) => (
+              <Comment comment={comment} hat={hat} />
+            ))}
         </div>
       </div>
     </div>
