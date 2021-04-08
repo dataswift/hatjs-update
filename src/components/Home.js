@@ -1,10 +1,11 @@
 import { HatClient } from "@dataswift/hat-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import appConfig from "../appConfig";
 
 export default function Home() {
   const [input, setInput] = useState("");
   const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
 
   const token = sessionStorage.getItem("token");
   const config = {
@@ -36,9 +37,26 @@ export default function Home() {
         .hatData()
         .create(appConfig.namespace, commentEndpoint, body);
 
-      console.log(response);
+      if (response.parsedBody) {
+        setInput("");
+      }
     }
   };
+
+  const fetchComments = async () => {
+    const response = await hat
+      .hatData()
+      .getAllDefault(appConfig.namespace, commentEndpoint);
+
+    if (response.parsedBody) {
+      setComments(response.parsedBody.map((comment) => comment.data));
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+    console.log(comments);
+  }, []);
 
   return (
     <div className="ui middle aligned grid">
@@ -58,6 +76,28 @@ export default function Home() {
             Add comment
           </button>
         </form>
+        <div className="ui comments">
+          {comments.map(({ date, value }) => (
+            <div className="comment">
+              <div className="content">
+                <a className="text">{value}</a>
+                <div className="metadata">
+                  <span className="date">
+                    {new Date(date).toLocaleTimeString()}
+                  </span>
+                </div>
+                <div className="actions">
+                  <a href="" className="edit">
+                    Edit
+                  </a>
+                  <a href="" className="delete">
+                    Delete
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
