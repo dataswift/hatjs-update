@@ -1,5 +1,13 @@
-# Getting Started with Dataswift Auth
-### `npm install`
+
+This repo is part of a 6 video series about login/signup and CRUD operations using Dataswift's hat-js
+
+## Description
+A simple React application to delete data from a Personal Data Account using hat-js
+
+## Getting Started with Dataswift Auth
+``` 
+npm install 
+```
 
 ## Create an account
 Visit the Developer Portal on developers.dataswift.io and create your account.
